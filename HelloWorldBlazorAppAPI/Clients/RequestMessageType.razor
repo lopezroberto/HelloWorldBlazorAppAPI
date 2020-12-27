@@ -1,0 +1,22 @@
+﻿@page "/request-message"
+@using HelloWorldBlazorAppAPI.Models
+@inject IHttpClientFactory _httpClientFactory;
+<h3>RequestMessageType</h3>
+<div>
+    @foreach (var todo in todos)
+    {
+        <p>@todo.Title</p>
+    }
+</div>
+
+@code {
+    private List<Todos> todos = new List<Todos>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        var request = new HttpRequestMessage(HttpMethod.Get, "https://jsonplaceholder.typicode.com/todos");
+        var httpClient = _httpClientFactory.CreateClient();
+        var response = await httpClient.SendAsync(request);
+        todos = await response.Content.ReadFromJsonAsync<List<Todos>>();
+    }
+}

@@ -1,0 +1,21 @@
+﻿@page "/named-client"
+@using HelloWorldBlazorAppAPI.Models;
+@inject IHttpClientFactory _clientFactory;
+<h3>NamedClient</h3>
+<div>
+    @foreach (var todo in todos)
+    {
+        <p>@todo.Title</p>
+
+    }
+</div>
+
+@code {
+    private List<Todos> todos = new List<Todos>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        var httpClient = _clientFactory.CreateClient("JsonPlaceHolderOnTheFlyClient");
+        todos = await httpClient.GetFromJsonAsync<List<Todos>>("/todos");
+    }
+}

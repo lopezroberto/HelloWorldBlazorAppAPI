@@ -1,0 +1,20 @@
+﻿@page "/typed-client"
+@using HelloWorldBlazorAppAPI.Clients
+@using HelloWorldBlazorAppAPI.Models
+@inject JsonPlaceHolderTypeClient _jsonPlaceHolderTypeClient;
+<h3>TypeClient</h3>
+<div>
+    @foreach (var todo in todos)
+    {
+        <p>@todo.Title</p>
+    }
+</div>
+
+@code {
+    protected List<Todos> todos = new List<Todos>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        todos = await _jsonPlaceHolderTypeClient.GetTodos();
+    }
+}
